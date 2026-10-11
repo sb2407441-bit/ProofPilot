@@ -1,5 +1,7 @@
 # ProofPilot design
 
+October 11 addition: Change lab keeps the established blue/white/teal palette, Manrope display, Source Sans 3 body and system monospace evidence. Its signature is a decision bridge connecting the old and candidate result above paired evidence changes and consequences. Two editors stack on mobile. Amber old evidence and teal candidate evidence retain explicit position/text so color is not the sole signal. Existing focus and reduced-motion behavior applies. No decorative motion or new asset dependencies. The funding example is synthetic; this screen was independently implemented using the existing visual system.
+
 The complete primary screen was concepted with the built-in Image Gen tool before UI implementation. The subject is a source-based opportunity workbench for early-career applicants. The signature is an evidence spine: each eligibility decision has a visible reason beside it, and conditional funding retains its condition.
 
 Palette: cool blue page #EFF4FA, white surfaces #FFFFFF, ink #142C44, electric blue #265DF2, teal #147D71, slate #647A90. Display: Manrope; body/control: Source Sans 3; evidence dates: system monospace. Fonts are self-hosted with their OFL licenses.

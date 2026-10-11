@@ -6,6 +6,8 @@ An evidence-first workspace for international opportunities: check eligibility, 
 
 ## What works
 
+- **Change lab:** compare two reviewed JSON snapshots, see eligibility/funding consequences, and copy a Markdown review report. Try the fictional founder-programme demo; invalid input is explicit. [Workflow, screenshot, schema and limits](docs/change-lab.md).
+
 - Search and filter curated opportunities against an editable, anonymous demo profile.
 - Explain age, education, training and availability requirements, including uncertain age boundaries and stale source checks.
 - Distinguish travel awards from reimbursements requiring money upfront.
