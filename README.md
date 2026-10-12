@@ -6,6 +6,8 @@ An evidence-first workspace for international opportunities: check eligibility, 
 
 ## What works
 
+- **Offline CLI / CI review gate:** compare the same evidence files without a browser, export JSON or Markdown, and distinguish valid review blockers from invalid inputs using exit codes. No dependency install or API needed for the CLI. [Runnable synthetic demo, gate policies and limits](docs/cli.md).
+
 - **Change lab:** compare two reviewed JSON snapshots, see eligibility/funding consequences, and copy a Markdown review report. Try the fictional founder-programme demo; invalid input is explicit. [Workflow, screenshot, schema and limits](docs/change-lab.md).
 
 - Search and filter curated opportunities against an editable, anonymous demo profile.
@@ -56,6 +58,8 @@ It is a local, single-user prototype. Do not expose it as a public service witho
 | `server/` | Local API, static serving and optional local-provider adapter |
 | `src/` | React interface |
 | `tests/` | Meaningful engine, provider and HTTP boundary tests |
+| `scripts/compare.mjs` | Dependency-free snapshot CLI and explicit CI exit policy |
+| `examples/change-review/` | Wholly synthetic evidence and profile fixtures |
 
 See [validation](VALIDATION.md), [security notes](SECURITY.md) and [design notes](DESIGN.md).
 

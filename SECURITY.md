@@ -5,6 +5,7 @@
 - Request size and profile field lengths/types are bounded. Model output is parsed as a plan, then checked against known fact identifiers; model-written prose is never rendered as a factual draft.
 - Sensitive-text checks block common key, private-key, identifier and email patterns before draft preparation or export. They are heuristics, not a complete confidentiality guarantee. Do not enter credentials, identity documents or employer data.
 - No profile persistence, analytics, document uploads or application submission are implemented. Downloaded briefs are user-controlled files and may contain self-reported information.
+- The offline comparison CLI bounds UTF-8 file reads, rejects nonregular/symlink input, emits fixed failure diagnostics and excludes profile fields from allowlisted reports. Reports still contain supplied evidence. Use synthetic/non-sensitive public inputs and review reports before sharing; do not put real profiles or private evidence in public CI logs or repositories.
 - An optional local gateway can forward requests remotely. Inspect its own configuration and costs separately. This app sends only generic labels and identifiers to its model endpoint.
 - The prototype has no authentication and is intended for one user on their own computer. Do not change the binding to a public network address without a separate security review.
 

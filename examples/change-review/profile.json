@@ -1,0 +1,14 @@
+{
+  "birthYear": 2000,
+  "country": "Example country",
+  "degreeCompleted": true,
+  "currentStudent": false,
+  "role": "Synthetic founder",
+  "degree": "Example degree",
+  "experienceMonths": 12,
+  "canFrontTravel": false,
+  "trainingComplete": false,
+  "weeklyHours": 4,
+  "leadershipAction": "",
+  "availabilityConfirmed": false
+}

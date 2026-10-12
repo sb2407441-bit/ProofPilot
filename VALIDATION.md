@@ -1,5 +1,13 @@
 # Validation
 
+## Offline CLI — October 12, 2026
+
+Windows, Node.js 24.19.0: `npm run check` passes **64 tests** (17 new subprocess CLI tests) and the Vite production build. CLI tests run the real executable, checking both streams and exit status: funding/closed/identical demos, file inputs matching the shared engine, custom synthetic funding plans, profile omission, wording-only versus decision gates, stale refreshes, bounded/non-UTF8/directory/missing inputs, malformed JSON, unknown/incomplete/sensitive profiles, invalid/repeated options, impossible clocks, deterministic output and help.
+
+Separately ran and inspected terminal output: included synthetic file workflow with fixed clock returns JSON **Likely fit → Upfront costs**, review gate exit **2**; unchanged demo exits **0**; missing synthetic file exits **1** with a safe diagnostic and no report. [Captured actual Markdown output](docs/cli-demo.md) uses the built-in synthetic funding demo. The CLI introduces no dependency, network, provider calls or file writes. Architecture and gate limitations are in [CLI docs](docs/cli.md).
+
+No browser UI code changed in this feature. Existing browser screenshots and October 11 observations remain historical evidence; the previously unconfirmed extra manual JSON-edit interaction and optional live AI remain unverified. No new browser/deployed-service/live-model success is claimed by this CLI validation. Linux CI status is recorded separately after publication, not inferred from local Windows tests.
+
 ## Change lab — October 11, 2026
 
 Windows, Node.js 24.19.0. `npm run check`: 47 tests pass (18 additional change-review tests) and Vite production build passes. The first run had one failing assertion expecting a URL-specific error although the earlier sensitive-input guard correctly rejected that fixture; the assertion was corrected, not the guard removed. Coverage includes funding reversals, same-profile funding plans, deadlines, changed/removed rule checks, stable decisions with changed prose, source changes, JSON key order, stale refresh, invalid schemas/dates/timestamps/profile values, sensitive-input rejection and report limits/profile omission.
