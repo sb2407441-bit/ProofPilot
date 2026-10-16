@@ -1,5 +1,13 @@
 # Validation
 
+## Minimal JUnit CI reports — October 16, 2026
+
+Windows, Node.js 24.19.0: `npm run check` passes **71 tests** (7 new executable JUnit workflow tests) and the Vite production build. Real CLI subprocesses verify blocked/unchanged/preview states, review-versus-decision policy behavior, fixed-time reproducibility, invalid/missing evidence, and omission of supplied evidence/profile/path/XML/CI payload strings. Tests do not establish that arbitrary private inputs are safe.
+
+Separately generated funding, deadline, unchanged and preview XML and parsed them using Python standard-library ElementTree. Verified failure/pass/skipped structure, exit 2/0, empty stderr, and missing-file exit 1 with empty stdout. [Captured actual output](docs/junit-demo.md). JUnit test names and messages contain no supplied prose; no duration or execution-performance metric is invented. Hosted GitLab/JUnit viewer rendering remains unverified. No new dependency, network operation, file write or provider call was added to the CLI.
+
+The existing production browser editor was also rechecked on October 16 in the Codex in-app browser: manually pasting the full valid synthetic candidate changed the funding result to **No changes / Likely fit → Likely fit**; manually entering an incomplete object showed **Comparison unavailable**, with a required-field explanation; pasting valid reimbursement evidence restored **Upfront costs**. Accessibility state confirmed these edits. Screenshot/Playwright DOM capture was unavailable, so no new pixel-layout or console-health verification is claimed. This resolves the earlier unconfirmed manual editor checks for these states. Browser code is unchanged. Optional live AI, browser download delivery and hosted deployment remain unverified; prior mobile inspections remain historical.
+
 ## Offline CLI — October 12, 2026
 
 Windows, Node.js 24.19.0: `npm run check` passes **64 tests** (17 new subprocess CLI tests) and the Vite production build. CLI tests run the real executable, checking both streams and exit status: funding/closed/identical demos, file inputs matching the shared engine, custom synthetic funding plans, profile omission, wording-only versus decision gates, stale refreshes, bounded/non-UTF8/directory/missing inputs, malformed JSON, unknown/incomplete/sensitive profiles, invalid/repeated options, impossible clocks, deterministic output and help.

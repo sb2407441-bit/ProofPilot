@@ -4,6 +4,7 @@ import {resolve} from 'node:path';
 import {compareSnapshots,changeReport,syntheticSnapshots} from '../lib/changes.mjs';
 import {detectSensitiveText,validateProfile} from '../lib/engine.mjs';
 import {demoProfile} from '../data/opportunities.mjs';
+import {junitReport} from '../lib/junit.mjs';
 
 const help=`ProofPilot offline evidence comparison (Node.js 24+)
 
@@ -11,7 +12,7 @@ node scripts/compare.mjs --demo funding|deadline|unchanged
 node scripts/compare.mjs --previous before.json --candidate after.json [--profile profile.json]
 
 Options:
-  --format markdown|json        Markdown by default; JSON has schemaVersion 1
+  --format markdown|json|junit  Markdown by default; JUnit omits evidence values
   --fail-on none|review|decision Default none; use review for conservative CI gates
   --now YYYY-MM-DDTHH:mm:ssZ     Fixed UTC evaluation time for reproducible reviews
   --help                       Show this help
@@ -21,6 +22,7 @@ Exit codes: 0 valid comparison / gate passed; 2 valid comparison / gate blocked;
 No fetching, live AI, telemetry or source verification. The default profile is
 synthetic demo data. Supply only a synthetic or non-sensitive public profile.
 Reports omit profile fields but contain supplied evidence; review before sharing.
+JUnit contains only gate metadata/counts. Preview policy none is a skipped test.
 `;
 
 function options(args){
@@ -35,7 +37,7 @@ function options(args){
     out[key]=args[++i];
   }
   if(out.help){if(args.length!==1)throw new Error('Use --help on its own.');return out;}
-  if(!['markdown','json'].includes(out.format)||!['none','review','decision'].includes(out['fail-on']))throw new Error('Unsupported format or gate policy. Use --help.');
+  if(!['markdown','json','junit'].includes(out.format)||!['none','review','decision'].includes(out['fail-on']))throw new Error('Unsupported format or gate policy. Use --help.');
   if(out.demo){
     if(!['funding','deadline','unchanged'].includes(out.demo)||out.previous||out.candidate||out.profile)throw new Error('Demo requires a known scenario and cannot be combined with input files.');
   }else if(!out.previous||!out.candidate)throw new Error('Provide both snapshot files, or use --demo.');
@@ -97,7 +99,7 @@ export async function runComparison(args){
   const profileMode=opt.profile?'supplied':'synthetic-demo';
   // Allowlisted summary: never serialize the profile or the raw internal object.
   const report={schemaVersion:1,available:true,mode:'offline',profileMode,evaluatedAt:result.evaluatedAt,state:result.state,gate,reviewRequired:result.reviewRequired,decisionChanged:result.decisionChanged,sourceChanged:result.sourceChanged,sources:{previous:result.before.source,candidate:result.after.source},decisions:{previous:result.beforeFit.status,candidate:result.afterFit.status},changes:result.changes,checks:result.checks,limits:['Manually supplied evidence; sources not fetched or verified.','Supported structured rules only; prose is not interpreted.','Profile fields omitted; evidence is included. Review before sharing.','No live AI, telemetry, monitoring or application submission.']};
-  const output=opt.format==='json'?JSON.stringify(report,null,2)+'\n':changeReport(result)+`\nProfile mode: ${profileMode}\nGate policy: ${gate.policy}\nGate blocked: ${blocked?'Yes':'No'}\n`;
+  const output=opt.format==='junit'?junitReport(report):opt.format==='json'?JSON.stringify(report,null,2)+'\n':changeReport(result)+`\nProfile mode: ${profileMode}\nGate policy: ${gate.policy}\nGate blocked: ${blocked?'Yes':'No'}\n`;
   return {output,code:blocked?2:0};
 }
 

@@ -55,13 +55,42 @@ These policies gate **changes**, not eligibility approval: identical snapshots c
 
 Exit 1 is never a no-change verdict. File paths, raw malformed inputs, stack traces and profile fields are not echoed in failure diagnostics. Do not mask all nonzero exits with `|| true` in CI. For example, a normal CI shell can run the synthetic funding command above: it should fail until a person reviews the intentional change. Redirect stdout to a local report file if desired, but inspect it before publishing; it contains your supplied evidence. The CLI itself writes no files. Keep real profile/input/report files out of public repositories and public CI logs.
 
+## JUnit: a small CI artifact without evidence values
+
+```sh
+node scripts/compare.mjs --demo funding --now 2026-10-16T03:00:00Z --format junit --fail-on review > proofpilot-review.xml
+```
+
+This intentionally exits **2** with one failed `ProofPilot.EvidenceReview` / `review-policy` test. An unchanged comparison with an enforced policy produces one passing test. Policy `none` produces a **skipped** test: previewing evidence is not an enforced policy pass. A failed test means a change requires human review, not that a programme or applicant was rejected. See the [actual XML transcript and independent parser verification](junit-demo.md).
+
+The JUnit report contains fixed test names/messages, policy, evaluation time, synthetic/supplied profile mode and changed-field/check counts. It omits programme names, source URLs, evidence values, individual decisions, profile values, local paths and raw errors. Those omissions are implemented by selecting metadata, not by redacting a full report afterward. Counts and gate status still reveal that a comparison/review occurred; this is not a promise of anonymity. Markdown and JSON still include supplied evidence and should stay local unless reviewed for sharing.
+
+Invalid options, missing files or invalid evidence keep the existing **exit 1 / empty stdout** contract, including JUnit mode. There is no misleading passed test or XML artifact for an unavailable comparison. Shell redirection can leave an empty file; CI must treat exit 1 as an error rather than interpreting an absent report as success. The CLI writes no file itself. Use `node` directly when redirecting XML; `npm run` can prepend script banners.
+
+For a GitLab project **you already operate**, this illustrative Linux-runner recipe uses only bundled synthetic evidence:
+
+```yaml
+proofpilot-review:
+  image: node:24
+  script:
+    - node scripts/compare.mjs --previous examples/change-review/before.json --candidate examples/change-review/after.json --now 2026-10-12T03:00:00Z --format junit --fail-on review > proofpilot-review.xml
+  artifacts:
+    when: always
+    reports:
+      junit: proofpilot-review.xml
+```
+
+The synthetic funding change intentionally fails this job with exit 2. Keep that nonzero exit; JUnit artifacts alone do not enforce job status. Do not upload private input files, full reports or profiles as artifacts. For multiple comparisons, use separate jobs: this minimal reporter has one fixed test identity, and concatenated XML documents are not a valid combined report. Only Python ElementTree parsing and CLI behavior have been observed here; hosted GitLab/JUnit-viewer rendering is **not verified**. No account, upload or deployment was created.
+
+Comparison with existing tools, checked October 16, 2026: [Promptfoo already exports JUnit and other formats](https://www.promptfoo.dev/docs/usage/command-line/); [GitLab documents JUnit display and separate exit-code enforcement](https://docs.gitlab.com/ci/testing/unit_test_reports/). ProofPilot's narrow contribution is applying its existing evidence-change policy to a metadata-only artifact, not inventing JUnit or model evaluation.
+
 ## Input and architecture
 
 Snapshots use the same [strict schema](change-lab.md) as the UI. Files must be regular UTF-8 files, not symlinks or directories: each snapshot read is bounded to 48,000 bytes, then the engine limits JSON to 12,000 characters. A profile is bounded to 12,000 bytes, uses exactly the fields shown in `examples/change-review/profile.json`, and must satisfy the existing profile validator. Unknown fields are rejected. Sensitive-text heuristics inspect parsed profile text, including escaped text. They do not guarantee privacy. Supply only synthetic or non-sensitive public inputs.
 
 Without `--profile`, the report explicitly labels `synthetic-demo` mode; it does not silently claim a personalized assessment. With `--profile`, every required field must be present and valid. Inputs stay in process memory. The CLI never fetches a supplied URL, invokes AI or sends telemetry.
 
-`scripts/compare.mjs` handles bounded reads, arguments, output and exit policy → `lib/changes.mjs` validates/diffs → `lib/engine.mjs` evaluates the same profile at the same clock. JSON uses an explicit allowlist rather than serializing internal objects. No third-party CLI package was added. The browser workflow is unchanged.
+`scripts/compare.mjs` handles bounded reads, arguments, output and exit policy → `lib/changes.mjs` validates/diffs → `lib/engine.mjs` evaluates the same profile at the same clock. JSON uses an explicit allowlist rather than serializing internal objects; `lib/junit.mjs` selects only aggregate gate metadata for JUnit. No third-party CLI package was added. The browser workflow is unchanged.
 
 Limitations: manually authored labels/source dates can be wrong; source identity/content is unverified; supported rule types are narrow; birth-year age boundaries remain uncertain; JSON schema version 1 is a prototype interface. The historical examples require the documented fixed time or updated checked dates. No monitoring, live AI, application submission or deployment is claimed. General website monitors and evaluation frameworks remain better suited to automated fetching or model evaluations.
 
