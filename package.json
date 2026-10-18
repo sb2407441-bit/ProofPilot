@@ -11,7 +11,16 @@
     "check": "npm test && npm run build",
     "compare": "node scripts/compare.mjs"
   },
-  "dependencies": {"react": "19.3.0", "react-dom": "19.3.0"},
-  "devDependencies": {"@vitejs/plugin-react": "6.1.2", "vite": "8.3.3"},
-  "engines": {"node": ">=24"}
+  "dependencies": {
+    "cheerio": "1.2.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "6.1.2",
+    "vite": "8.3.3"
+  },
+  "engines": {
+    "node": ">=24"
+  }
 }

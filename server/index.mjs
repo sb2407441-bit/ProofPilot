@@ -5,6 +5,9 @@ import {fileURLToPath} from 'node:url';
 import {opportunities} from '../data/opportunities.mjs';
 import {prepareDraft,assembleDraft} from '../lib/drafts.mjs';
 import {listLocalModels,selectDraftPlan,localProviderUrl} from './provider.mjs';
+import {capturePublicSource,SourceError} from './public-source.mjs';
+import {extractSourceEvidence} from '../lib/source-evidence.mjs';
+import {sourceDemoHtml} from '../data/source-demo.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../dist');
 const baseUrl=localProviderUrl(process.env.LOCAL_AI_URL||'http://127.0.0.1:11434');
 const kind=process.env.LOCAL_AI_KIND==='gateway'?'gateway':'ollama';
@@ -15,12 +18,24 @@ async function body(req) {
   for await(const chunk of req){text+=chunk;if(Buffer.byteLength(text)>16000)throw new Error('Request too large.');}
   return JSON.parse(text);
 }
-export function createApp() {
+export function createApp({captureSource=capturePublicSource}={}) {
+  let sourceBusy=false;
   return http.createServer(async(req,res)=>{
     const url=new URL(req.url,'http://127.0.0.1');
     if(req.headers.origin&&!/^http:\/\/(127\.0\.0\.1|localhost):(5188|5189)$/.test(req.headers.origin))return json(res,403,{error:'Only the local app may send requests.'});
     if(!/^(127\.0\.0\.1|localhost)(:\d{1,5})?$/.test(req.headers.host||''))return json(res,403,{error:'Invalid local host.'});
     try {
+      if(['/api/source','/api/source/demo'].includes(url.pathname)&&req.method==='POST'){
+        if(!req.headers['content-type']?.startsWith('application/json'))return json(res,415,{error:'JSON is required.'});
+        const data=await body(req);
+        if(!data||typeof data!=='object'||Array.isArray(data)||Object.keys(data).some(k=>k!=='url')||(url.pathname==='/api/source'&&typeof data.url!=='string'))return json(res,400,{error:'Send only a public page URL. Profile data is not accepted.'});
+        if(url.pathname==='/api/source/demo')return json(res,200,extractSourceEvidence(Buffer.from(sourceDemoHtml),{source:'https://example.org/fictional-makers-residency',fetchedAt:new Date().toISOString(),mode:'synthetic'}));
+        if(sourceBusy)return json(res,429,{error:'One source is already being read. Wait for it to finish.'});
+        sourceBusy=true;
+        try{return json(res,200,await captureSource(data.url));}
+        catch(e){return json(res,e instanceof SourceError?422:502,{code:e instanceof SourceError?e.code:'source_unavailable',error:e instanceof SourceError?e.message:'The public page could not be read. Try another source.'});}
+        finally{sourceBusy=false;}
+      }
       if(url.pathname==='/api/provider'&&req.method==='GET')return json(res,200,{kind,...await listLocalModels({baseUrl,kind})});
       if(url.pathname==='/api/draft'&&req.method==='POST'){
         if(!req.headers['content-type']?.startsWith('application/json'))return json(res,415,{error:'JSON is required.'});

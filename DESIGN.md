@@ -1,5 +1,7 @@
 # ProofPilot design
 
+October 18: Source desk extends the existing palette and fonts with a reading surface: each excerpt carries its category, section, source link and an explicit Keep checkbox. Teal selection means kept, not verified. Empty, loading, unavailable, no-match and truncated states explain the next action. Excerpts stack at narrower widths, and navigation scrolls within its own row. No decorative motion, external assets or new fonts were added. Pro-Pilot style lookup and frontend design guidance informed the review; landing-page animation guidance was not applicable to this utility screen.
+
 October 11 addition: Change lab keeps the established blue/white/teal palette, Manrope display, Source Sans 3 body and system monospace evidence. Its signature is a decision bridge connecting the old and candidate result above paired evidence changes and consequences. Two editors stack on mobile. Amber old evidence and teal candidate evidence retain explicit position/text so color is not the sole signal. Existing focus and reduced-motion behavior applies. No decorative motion or new asset dependencies. The funding example is synthetic; this screen was independently implemented using the existing visual system.
 
 The complete primary screen was concepted with the built-in Image Gen tool before UI implementation. The subject is a source-based opportunity workbench for early-career applicants. The signature is an evidence spine: each eligibility decision has a visible reason beside it, and conditional funding retains its condition.
