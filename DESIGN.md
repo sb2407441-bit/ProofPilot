@@ -1,3 +1,5 @@
+October 19: Ambiguous-input repair retains the established palette, typography and paired editors. A fifth synthetic example demonstrates a real hidden-funding failure. Errors identify the candidate/previous input and both field positions with a plain repair instruction; no new decoration, animation, dependency or font. Existing layout and focus styles retained.
+
 # ProofPilot design
 
 October 18: Source desk extends the existing palette and fonts with a reading surface: each excerpt carries its category, section, source link and an explicit Keep checkbox. Teal selection means kept, not verified. Empty, loading, unavailable, no-match and truncated states explain the next action. Excerpts stack at narrower widths, and navigation scrolls within its own row. No decorative motion, external assets or new fonts were added. Pro-Pilot style lookup and frontend design guidance informed the review; landing-page animation guidance was not applicable to this utility screen.

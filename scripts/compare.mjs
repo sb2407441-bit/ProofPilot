@@ -5,6 +5,7 @@ import {compareSnapshots,changeReport,syntheticSnapshots} from '../lib/changes.m
 import {detectSensitiveText,validateProfile} from '../lib/engine.mjs';
 import {demoProfile} from '../data/opportunities.mjs';
 import {junitReport} from '../lib/junit.mjs';
+import {parseReviewJson,ReviewJsonError} from '../lib/review-json.mjs';
 
 const help=`ProofPilot offline evidence comparison (Node.js 24+)
 
@@ -72,8 +73,8 @@ async function readInput(path,label,maxBytes){
 }
 
 function profileFrom(text,now){
-  let profile;
-  try{profile=JSON.parse(text);}catch{throw new Error('Profile is not valid JSON.');}
+  if(detectSensitiveText(text).length)throw new Error('Remove sensitive information from the profile.');
+  const profile=parseReviewJson(text,'Profile');
   if(!profile||typeof profile!=='object'||Array.isArray(profile)||Object.keys(profile).some(k=>!Object.hasOwn(demoProfile,k)))throw new Error('Profile must use only the documented profile fields.');
   if(detectSensitiveText(JSON.stringify(profile)).length)throw new Error('Remove sensitive information from the profile.');
   return validateProfile(profile,now);
@@ -110,7 +111,7 @@ if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
   }catch(error){
     // Only our fixed messages escape; no raw JSON, paths, stack traces or OS errors.
     const known=/^(Invalid or repeated option|An option is missing|Use --help|Unsupported format|Demo requires|Provide both|Evaluation time|Previous snapshot must|Candidate snapshot must|Profile must|Profile is not|Remove sensitive|Snapshot |Source |Checked |Deadline|A date-only|Instant |Rule |Age |Weekly hours|Availability |Funding |Programme name|Travel summary|Enter a valid birth year|Experience must|Invalid (?:degreeCompleted|currentStudent|canFrontTravel|trainingComplete|availabilityConfirmed|country|role|degree|leadershipAction) value|A profile object)/;
-    const message=known.test(error.message)?error.message:'Input could not be evaluated.';
+    const message=error instanceof ReviewJsonError||known.test(error.message)?error.message:'Input could not be evaluated.';
     process.stderr.write(`Comparison unavailable: ${message}\n`);process.exitCode=1;
   }
 }

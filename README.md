@@ -14,6 +14,8 @@ Start with **Source desk**: read one public HTML page on demand, find possible f
 
 - **Change lab:** compare two reviewed JSON snapshots, see eligibility/funding consequences, and copy a Markdown review report. Try the fictional founder-programme demo; invalid input is explicit. [Workflow, screenshot, schema and limits](docs/change-lab.md).
 
+- **Ambiguous-input guard:** conflicting or repeated JSON fields cannot silently become a passing comparison. Browser and CLI reject them, including escaped field names, with repair positions and no evidence values in diagnostics. Try **Conflicting fields** in Change lab. [Reproduction, repair and actual CLI output](docs/ambiguous-input.md).
+
 - Search and filter curated opportunities against an editable, anonymous demo profile.
 - Explain age, education, training and availability requirements, including uncertain age boundaries and stale source checks.
 - Distinguish travel awards from reimbursements requiring money upfront.

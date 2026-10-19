@@ -110,3 +110,26 @@ test('fixed-time JSON demo output is reproducible',()=>{
 test('help works without files and discloses exit codes and offline limitations',()=>{
   const r=run('--help');assert.equal(r.status,0);assert.equal(r.stderr,'');assert.match(r.stdout,/Exit codes/);assert.match(r.stdout,/No fetching, live AI/);
 });
+
+test('duplicate snapshot fields make every output format unavailable with no report',async t=>{
+  const f=await files(t);
+  const ambiguous=JSON.stringify(f.samples.previous).replace('"type":"covered"','"type":"reimbursement","type":"covered"');
+  await writeFile(f.candidate,ambiguous);
+  for(const format of ['markdown','json','junit']){
+    const r=run(...f.args,'--format',format,'--fail-on','review');
+    assert.equal(r.status,1);assert.equal(r.stdout,'');assert.match(r.stderr,/Candidate snapshot repeats an object field at line 1, column/);
+    assert.ok(!r.stderr.includes('reimbursement'));assert.ok(!r.stderr.includes(f.candidate));
+  }
+  await writeFile(f.candidate,JSON.stringify(f.samples.previous));
+  const recovered=run(...f.args,'--format','json','--fail-on','review');
+  assert.equal(recovered.status,0);assert.equal(JSON.parse(recovered.stdout).state,'No changes');
+});
+test('duplicate supplied profile fields cannot hide a conflicting funding plan',async t=>{
+  const f=await files(t);
+  const ambiguous=JSON.stringify(demoProfile).replace('"canFrontTravel":false','"canFrontTravel":true,"canFrontTravel":false');
+  assert.notEqual(ambiguous,JSON.stringify(demoProfile));
+  await writeFile(f.profile,ambiguous);
+  const r=run(...f.args,'--profile',f.profile,'--format','junit');
+  assert.equal(r.status,1);assert.equal(r.stdout,'');assert.match(r.stderr,/Profile repeats an object field/);
+  assert.ok(!r.stderr.includes('canFrontTravel'));
+});

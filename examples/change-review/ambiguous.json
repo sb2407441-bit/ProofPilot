@@ -1,0 +1,13 @@
+{
+  "name": "Sample Founder Studio",
+  "source": "https://example.org/synthetic-founder-studio",
+  "checkedAt": "2026-10-12",
+  "deadline": {"date": "2027-12-15", "precision": "date"},
+  "rules": {"degree": true, "weeklyHours": 4},
+  "funding": {
+    "type": "reimbursement",
+    "type": "covered",
+    "travel": "Travel arranged before participation",
+    "detail": "Synthetic terms: approved travel is booked before participation."
+  }
+}

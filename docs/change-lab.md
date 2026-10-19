@@ -28,6 +28,7 @@ Both inputs use the same strict schema. This example is wholly synthetic. `examp
 ```
 
 - All six top-level fields are required. Unknown fields are rejected, including unsupported rules; remove them rather than assuming they were evaluated.
+- Field names must occur once per object, even when values match or names use Unicode escapes. **Conflicting fields** demonstrates a later `covered` value hiding an earlier `reimbursement`. Comparison now stops with the input label and both positions. Check the source and keep one field; the app never chooses for you. [Reproduction and limits](ambiguous-input.md).
 - Rule fields are optional: `age` (ordered whole-number pair, 0–120), `degree`, `student`, `leadership`, `training` (booleans), `weeklyHours` (1–168), `availability` (short text). Omitted rules are absent checks, not proof of eligibility. Age uses birth-year uncertainty from the existing engine.
 - Funding types: `covered`, `conditional`, `project`, `reimbursement`, `none`. Only reimbursement adds the existing upfront-travel check. Descriptive funding prose is displayed/diffed, not semantically interpreted. A changed paragraph always requires human review even if the classification is stable.
 - A precise deadline uses `precision: "instant"` and `instant: "2026-10-11T12:00:00+05:00"`, with `date` matching the calendar date in that timestamp. Date-only deadlines must omit `instant`; the engine preserves closing-time uncertainty.

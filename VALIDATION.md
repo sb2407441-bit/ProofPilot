@@ -1,5 +1,11 @@
 # Validation
 
+## Ambiguous evidence inputs — October 19, 2026
+
+Windows Node.js 24.19.0: `npm run check` passes **101 tests** and the production build. Ten new regressions cover the reproduced hidden-funding/no-change failure, duplicate objects and same values, decoded escaped names, position-only diagnostics, sibling/array scoping, string lookalikes, malformed syntax, depth/length guards, actual CLI formats/exit 1/empty stdout, supplied profiles and valid recovery. Initial executable tests caught the CLI diagnostic allowlist suppressing the new error; a typed fixed-message error now preserves safe repair diagnostics. Final run passed.
+
+Separately ran bundled synthetic ambiguous/unchanged/reimbursement files: exits 1/0/2 respectively; ambiguous JSON and JUnit both had empty stdout and fixed position diagnostics. Production browser accessibility confirmed normal funding result, conflicting preset, manually pasted escaped duplicates, manual reimbursement repair and unchanged recovery. Native and CDP screenshot capture failed; no new pixel-layout/mobile/console/clipboard verification is claimed. [Observed transcript, reproduction, architecture, contribution disclosure and limits](docs/ambiguous-input.md). Existing screenshots remain historical; live optional AI/hosted deployment remain unverified.
+
 ## Source desk — October 18, 2026
 
 Windows, Node.js 24.19.0: `npm run check` passes **91 tests** (20 new source extraction/network/API tests) and the Vite production build. Tests cover conditions/negations, inert/hidden HTML, duplicate blocks, contact omission, empty/truncated/limited results, category coverage, selective briefs/anchors, public URL and IPv4/IPv6 boundaries, mixed DNS rejection, pinned transport with no auth/cookies, streamed byte limits, redirect revalidation, compressed expansion/invalid encoding, HTTP/non-HTML failures, stalled DNS/network timeouts, URL-only API payloads, origin/content-type/no-store boundaries, error masking/stable failure codes and concurrency release. Network failures use injected responses; a separate real capture is documented below. `npm audit --omit=dev --json` reported zero known production dependency advisories at this check; that is not a security guarantee.
