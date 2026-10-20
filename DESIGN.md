@@ -1,3 +1,5 @@
+October 20: Source desk labels list-item context beside retained funding wording and repeats that meaning in selected briefs. Nested conditions stay with their parent claim; bullets/numbering are explicitly omitted. Truncation warns that conditions may be missing. Existing colors, layout, focus styles and typography are reused; no new motion, fonts or dependencies.
+
 October 19: Ambiguous-input repair retains the established palette, typography and paired editors. A fifth synthetic example demonstrates a real hidden-funding failure. Errors identify the candidate/previous input and both field positions with a plain repair instruction; no new decoration, animation, dependency or font. Existing layout and focus styles retained.
 
 # ProofPilot design

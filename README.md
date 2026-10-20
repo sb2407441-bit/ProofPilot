@@ -2,13 +2,13 @@
 
 An evidence-first workspace for international opportunities: check eligibility, understand funding conditions, and prepare a draft whose factual statements have visible provenance.
 
-Start with **Source desk**: read one public HTML page on demand, find possible funding/timing/requirement mentions, and keep selected excerpts in a source-linked brief. No personal profile or AI provider is involved. This is keyword-based reading assistance, not a verified eligibility verdict. [Demo, architecture and limits](docs/source-desk.md).
+Start with **Source desk**: read one public HTML page on demand, find possible funding/timing/requirement mentions, and keep selected excerpts in a source-linked brief. No personal profile or AI provider is involved. This is keyword-based reading assistance, not a verified eligibility verdict. [Demo, architecture and limits](docs/source-desk.md). [List-context repair and runnable reproduction](docs/source-context.md).
 
 ![ProofPilot desktop workspace](docs/preview.png)
 
 ## What works
 
-- **Source desk:** bounded public HTTPS capture, section/source links, capture time and HTML digest, category filters, selective copy and explicit unavailable/empty states. Try the original synthetic example without an external request. Real public-page fetching was observed against the PSF grants documentation on October 18, 2026; future availability is not guaranteed.
+- **Source desk:** bounded public HTTPS capture, list items with nested conditions kept together, section/source links, capture time and HTML digest, category filters, selective copy and explicit unavailable/empty states. Try the original synthetic example without an external request. Real public-page fetching was observed against the PSF grants documentation on October 18, 2026; future availability is not guaranteed.
 
 - **Offline CLI / CI review gate:** compare evidence files without a browser, export JSON/Markdown or a minimal JUnit XML report, and distinguish review blockers from invalid inputs. JUnit omits evidence and profile values; preview runs are explicitly skipped. No dependency install or API needed. [Runnable synthetic demos, CI recipe and limits](docs/cli.md).
 

@@ -1,5 +1,11 @@
 # Validation
 
+## List-item evidence context — October 20, 2026
+
+Windows Node.js 24.19.0: `npm run check` passes **109 tests** and the production build. Eight new regression tests cover lost parent lead-ins/trailing conditions, nested exceptions without detached children, block/line-break spacing and inline words, whole-item contact omission, explicit truncation, list-local headings, unchanged plain paragraphs/link-only noise, and the actual synthetic HTTP API plus selective brief.
+
+Separate production API inspection returned four synthetic excerpts; the travel item and selected Markdown brief retain upfront payment plus attendance/receipts. Chrome on the documented port 5189 verified context wording/label, selection across Timing/All filters, the exact brief preview, copy-success feedback, blocked localhost URL failure and synthetic recovery. The new normal desktop viewport screenshot was inspected and contains only original synthetic data. No new mobile, clipboard-denial, real-page capture, live AI or deployment claim is made. A first browser attempt on custom port 5190 was blank because the existing origin allowlist accepts only documented ports 5188/5189; testing returned to 5189 without weakening it. [Reproduction, architecture, demo, limits and contribution disclosure](docs/source-context.md).
+
 ## Ambiguous evidence inputs — October 19, 2026
 
 Windows Node.js 24.19.0: `npm run check` passes **101 tests** and the production build. Ten new regressions cover the reproduced hidden-funding/no-change failure, duplicate objects and same values, decoded escaped names, position-only diagnostics, sibling/array scoping, string lookalikes, malformed syntax, depth/length guards, actual CLI formats/exit 1/empty stdout, supplied profiles and valid recovery. Initial executable tests caught the CLI diagnostic allowlist suppressing the new error; a typed fixed-message error now preserves safe repair diagnostics. Final run passed.

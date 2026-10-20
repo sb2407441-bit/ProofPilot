@@ -4,9 +4,9 @@ For someone reviewing a programme or founder-support page: collect the actual wo
 
 ## Try it
 
-Run the [local setup](../README.md#run-locally), open Source desk and choose **Try synthetic example**. It makes no external request. Four original fictional paragraphs describe reimbursement, uncovered visa fees, a deadline without a stated timezone, and prototype requirements.
+Run the [local setup](../README.md#run-locally), open Source desk and choose **Try synthetic example**. It makes no external request. Four original fictional excerpts describe reimbursement, uncovered visa fees, a deadline without a stated timezone, and prototype requirements.
 
-1. Select the travel excerpt: it says tickets must be paid for first.
+1. Select the travel excerpt: its list-item paragraph, upfront-payment condition and nested receipts requirement stay together. A context label explains that bullets/numbering are omitted. See the [October 20 repair](source-context.md).
 2. Filter Timing: the deadline remains a possible mention, not a normalized closing instant. Selection survives filters.
 3. Copy selected evidence, or expand the selectable brief preview if clipboard access is unavailable. Only checked excerpts enter the brief.
 4. For a real public-page read, choose **Use PSF grants URL** and then **Read public page**. The shortcut fills the URL; it does not fetch automatically. This is a documentation example, not an application recommendation or submission.
@@ -14,7 +14,7 @@ Run the [local setup](../README.md#run-locally), open Source desk and choose **T
 
 Results disappear on reload or leaving Source desk. No background monitoring, storage, personal telemetry, AI model, account or paid scraping API is used. The website sees a normal GET from the server's network address.
 
-Actual desktop viewport of the synthetic example, with one travel excerpt selected:
+Historical October 18 desktop viewport of the earlier synthetic example, with one travel excerpt selected (before the October 20 list-context label):
 
 ![Synthetic source excerpts and explicit selection](source-desk-desktop.jpg)
 
@@ -24,7 +24,7 @@ Actual desktop viewport of the synthetic example, with one travel excerpt select
 
 `SourceDesk.jsx` sends only `{url}` to local `POST /api/source`. The server rejects extra payload fields and foreign origins. `public-source.mjs` validates public HTTPS hostnames/DNS, pins the validated address while retaining hostname/TLS checks, revalidates redirects, bounds streamed/compressed content and handles non-HTML/error/timeouts. Source failures return HTTP 422 with an allowlisted `code` (`url`, `dns`, `fetch`, `timeout`, `http`, `content`, `size`, `encoding`, `redirect`); unexpected capture errors return 502 / `source_unavailable`. No raw exception, URL or network stack is echoed. Other request validation errors use their HTTP status and safe message. There is no automatic retry.
 
-`source-evidence.mjs` uses Cheerio's inert buffer parser, removes scripts/forms/common chrome and finds keyword-bearing text blocks. It preserves conditions and negations within retained text; it does not understand them. Ranking reserves category coverage before filling a maximum of 24 excerpts. Text blocks are whitespace-normalized, duplicates skipped, text over 700 characters explicitly truncated. After 3,000 candidate blocks, scanning stops and a limitation is shown. HTML bytes are hashed after HTTP decompression; the digest identifies the bytes, not their truth, publisher identity or completeness.
+`source-evidence.mjs` uses Cheerio's inert buffer parser, removes scripts/forms/common chrome and finds keyword-bearing text blocks. It preserves conditions and negations within retained text; it does not understand them. Ranking reserves category coverage before filling a maximum of 24 excerpts. Outer list items retain their descendant paragraphs and nested list wording as one excerpt; child blocks are not emitted separately. Block boundaries become spaces while inline words remain intact. List numbering, bullets and nesting layout are omitted; the UI/brief label that loss. Contact detection applies to the whole item, so one sensitive-looking child omits the item. Other text blocks retain the prior extraction behavior. Text blocks are whitespace-normalized, duplicates skipped, text over 700 characters explicitly truncated. Long list items may lose a late condition at that bound; read the source. `context` is additive metadata (`list-item` or `text-block`) within source schema version 1; older results without it still render. After 3,000 candidate blocks, scanning stops and a limitation is shown. HTML bytes are hashed after HTTP decompression; the digest identifies the bytes, not their truth, publisher identity or completeness.
 
 `source-brief.mjs` formats only selected IDs, including the page URL and each available section anchor. Anchors may lead to a broader container; they are not exact text citations. The synthetic route runs the same extractor on `data/source-demo.mjs` and labels its mode. The browser does not import the server parser. Existing eligibility, Change lab and offline CLI remain separate; no fetched sentence becomes a structured fact automatically. The CLI remains dependency-free.
 
